@@ -37,7 +37,7 @@ class LoginPanel(wx.Panel):
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
         passwordLabel = wx.StaticText(self, label='Password:')
         hbox2.Add(passwordLabel, flag=wx.RIGHT|wx.TOP, border=3)
-        self.passwordTextBox = wx.TextCtrl(self, style=wx.TE_PASSWORD)
+        self.passwordTextBox = wx.TextCtrl(self, style=wx.TE_PASSWORD | wx.TE_PROCESS_ENTER)
         hbox2.Add(self.passwordTextBox, proportion=1)
         vbox.Add(hbox2, flag=wx.ALIGN_CENTER| wx.ALL, border=10)
 
@@ -69,7 +69,7 @@ class ContactPanel(wx.Panel):
         hbox1 = wx.BoxSizer(wx.HORIZONTAL)
         contactLable = wx.StaticText(self, label="Corp/Alliance Name:")
         hbox1.Add(contactLable, flag=wx.RIGHT|wx.TOP, border=3)
-        self.contactNameBox = wx.TextCtrl(self, size=(150, 25))
+        self.contactNameBox = wx.TextCtrl(self, size=(150, 25), style=wx.TE_PROCESS_ENTER)
         hbox1.Add(self.contactNameBox, proportion = 1)
         vbox.Add(hbox1, flag=wx.ALIGN_CENTER|wx.ALL, border = 10)
 
@@ -132,15 +132,13 @@ class MainFrame(wx.Frame):
         menubar.Append(fileMenu, '&File')
         self.SetMenuBar(menubar)
 
-        #Setup events for the panesl
+        #Setup events for the panels
         self.loginPanel.loginButton.Bind(wx.EVT_BUTTON, self.onLogin) #Login Button
         self.contactPanel.addButton.Bind(wx.EVT_BUTTON, self.onAddWatchList) #Add Watch List Button
         self.contactPanel.stopButton.Bind(wx.EVT_BUTTON, self.onStopAddWatchList)
-
  
     #----------------------------------------------------------------------
     def onLogOut(self, event):
-        """"""
         if self.loginPanel.IsShown():
             self.loginPanel.usernameTextBox.Clear()
             self.loginPanel.passwordTextBox.Clear()
@@ -154,12 +152,10 @@ class MainFrame(wx.Frame):
         self.Layout()
 
     def onAbout(self, event):
-
-
         info = wx.AboutDialogInfo()
 
         info.SetName('Wartarge')
-        info.SetDescription('A simple scritp to add contacts to you watchlist \n create by: trumpet7347 \n Special thanks to: Roriiii')
+        info.SetDescription('A simple scritp to add contacts to you watchlist \n create by: trumpet7347 and Roriii')
 
         wx.AboutBox(info)
 
@@ -179,18 +175,18 @@ class MainFrame(wx.Frame):
             self.loginPanel.Hide()
             self.contactPanel.Show()
             self.Layout()
+            self.Refresh()
 
         except:
             self.m_statusBar1.SetStatusText('ERROR: unable to login', 0)
             self.loginPanel.loginButton.Enable()
+                
 
-    
     def onStopAddWatchList(self, event):
         self.stoppingAddWatchList = True
 
+
     def onAddWatchList(self, event):
-
-
         self.stoppingAddWatchList = False
         
         contactType = self.contactPanel.dropBox.GetValue()

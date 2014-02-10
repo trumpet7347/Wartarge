@@ -15,7 +15,11 @@ def getCorpId(corpName):
   page, resources = browser.open(url)
   root = ET.fromstring(page.content)
   corpID = root.find("./result/rowset/row[@characterID]").attrib["characterID"]
-  return corpID
+
+  if corpID == 0:
+    raise Exception('lookup error')
+  else:
+    return corpID
 
 def getAllianceId(allianceName):
   import xml.etree.ElementTree as ET
@@ -62,14 +66,13 @@ def getMemberList(form, ID):
   return members
 
 def loginEveGate(username, password):
-  print 'Logging in'
-
   page, resources = browser.open('http://gate.eveonline.com/')
   browser.click('.ccploginwidget-login a', expect_loading=True)
   browser.fill("form", {"UserName" : username, "Password" : password})
   page, resources = browser.fire_on("form", "submit", expect_loading=True)
 
-  print 'Logged In'
+  if browser.exists('.validation-summary-errors'):
+    raise Exception('Login Failure')
 
 def addContact(characterName):
   try:
@@ -125,3 +128,7 @@ def moveToLabel(contactName, labelID):
   browser.click('#editMultipleContactsButtonTop')
   browser.click('#divStandingM10')
   browser.click('#editContactButton', expect_loading=True)
+
+
+testid = getCorpId('silly corp name')
+print testid
