@@ -15,11 +15,7 @@ def getCorpId(corpName):
   page, resources = browser.open(url)
   root = ET.fromstring(page.content)
   corpID = root.find("./result/rowset/row[@characterID]").attrib["characterID"]
-
-  if corpID == 0:
-    raise Exception('lookup error')
-  else:
-    return corpID
+  return corpID
 
 def getAllianceId(allianceName):
   import xml.etree.ElementTree as ET
@@ -128,7 +124,3 @@ def moveToLabel(contactName, labelID):
   browser.click('#editMultipleContactsButtonTop')
   browser.click('#divStandingM10')
   browser.click('#editContactButton', expect_loading=True)
-
-
-testid = getCorpId('silly corp name')
-print testid

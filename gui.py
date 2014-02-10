@@ -136,6 +136,9 @@ class MainFrame(wx.Frame):
         self.loginPanel.loginButton.Bind(wx.EVT_BUTTON, self.onLogin) #Login Button
         self.contactPanel.addButton.Bind(wx.EVT_BUTTON, self.onAddWatchList) #Add Watch List Button
         self.contactPanel.stopButton.Bind(wx.EVT_BUTTON, self.onStopAddWatchList)
+
+        self.loginPanel.passwordTextBox.Bind(wx.EVT_TEXT_ENTER, self.onLogin)
+        self.contactPanel.contactNameBox.Bind(wx.EVT_TEXT_ENTER, self.onAddWatchList)
  
     #----------------------------------------------------------------------
     def onLogOut(self, event):
@@ -180,7 +183,7 @@ class MainFrame(wx.Frame):
         except:
             self.m_statusBar1.SetStatusText('ERROR: unable to login', 0)
             self.loginPanel.loginButton.Enable()
-                
+
 
     def onStopAddWatchList(self, event):
         self.stoppingAddWatchList = True
@@ -206,9 +209,11 @@ class MainFrame(wx.Frame):
                 contactID = wartarge.getCorpId(contactName)
         except:
             self.m_statusBar1.SetStatusText('Error looking up ' + contactName, 1)
+            self.contactPanel.addButton.Endable()
+            self.contactPanel.stopButton.Disable()
             return
 
-        if contactID == 0:
+        if contactID == '0':
             self.m_statusBar1.SetStatusText('Can\'t find ' + contactName, 1)
         else:
 
@@ -240,6 +245,10 @@ class MainFrame(wx.Frame):
                 dlg.Destroy()
 
                 if result != wx.ID_OK:
+                    self.contactPanel.m_gauge1.SetValue(0)
+                    self.contactPanel.m_gauge1.Disable()
+                    self.contactPanel.addButton.Enable()
+                    self.m_statusBar1.SetStatusText('Action Cancelled', 1)
                     return
 
 
