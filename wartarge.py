@@ -62,14 +62,13 @@ def getMemberList(form, ID):
   return members
 
 def loginEveGate(username, password):
-  print 'Logging in'
-
   page, resources = browser.open('http://gate.eveonline.com/')
   browser.click('.ccploginwidget-login a', expect_loading=True)
   browser.fill("form", {"UserName" : username, "Password" : password})
   page, resources = browser.fire_on("form", "submit", expect_loading=True)
 
-  print 'Logged In'
+  if browser.exists('.validation-summary-errors'):
+    raise Exception('Login Failure')
 
 def addContact(characterName):
   try:
