@@ -158,7 +158,7 @@ class MainFrame(wx.Frame):
         info = wx.AboutDialogInfo()
 
         info.SetName('Wartarge')
-        info.SetDescription('A simple scritp to add contacts to you watchlist \n create by: trumpet7347 and Roriii')
+        info.SetDescription('A simple scritp to add contacts to you watchlist \n create by: trumpet7347\n Special Thanks: Roriii')
 
         wx.AboutBox(info)
 
