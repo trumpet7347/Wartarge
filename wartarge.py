@@ -1,3 +1,22 @@
+#===============================================================================
+# Copyright (C) 2014 Philip Smith
+#
+# This file is part of Wartarge.
+#
+# Wartarge is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Wartarge is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Wartarge.  If not, see <http://www.gnu.org/licenses/>.
+#===============================================================================
+
 from ghost import Ghost
 import math
 import time
@@ -17,6 +36,7 @@ def getCorpId(corpName):
   corpID = root.find("./result/rowset/row[@characterID]").attrib["characterID"]
   return corpID
 
+#Returns the Alliance ID of the inputed Alliance Name. 
 def getAllianceId(allianceName):
   import xml.etree.ElementTree as ET
   name = allianceName
@@ -35,12 +55,13 @@ def getMemberList(form, ID):
   members = {}
   membersCount = int(eveWhoList['info']['memberCount'])
 
+  #Eve Who API has a page limit of 200 members, this checks to see if the list is over 200
   if membersCount <= 200:
     index = 1
     for characters in eveWhoList['characters']:
       members[index] = str(characters['name'])
       index += 1
-
+  #If the memberlist is over 200, we determin how many more pages there are going to be
   else:
     count = int(math.ceil(201/200.0))
 
@@ -124,3 +145,6 @@ def moveToLabel(contactName, labelID):
   browser.click('#editMultipleContactsButtonTop')
   browser.click('#divStandingM10')
   browser.click('#editContactButton', expect_loading=True)
+
+def deleteCookies():
+  browser.delete_cookies()

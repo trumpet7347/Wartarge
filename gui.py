@@ -1,3 +1,22 @@
+#===============================================================================
+# Copyright (C) 2014 Philip Smith
+#
+# This file is part of Wartarge.
+#
+# Wartarge is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Wartarge is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Wartarge.  If not, see <http://www.gnu.org/licenses/>.
+#===============================================================================
+
 import wx
 import wartarge
 import PyQt4
@@ -147,6 +166,7 @@ class MainFrame(wx.Frame):
             self.loginPanel.passwordTextBox.Clear()
             self.m_statusBar1.SetStatusText('Logged Out', 0)
         else:
+            wartarge.deleteCookies()
             self.loginPanel.Show()
             self.contactPanel.Hide()
             self.loginPanel.usernameTextBox.Clear()
@@ -209,12 +229,15 @@ class MainFrame(wx.Frame):
                 contactID = wartarge.getCorpId(contactName)
         except:
             self.m_statusBar1.SetStatusText('Error looking up ' + contactName, 1)
-            self.contactPanel.addButton.Endable()
+            self.contactPanel.addButton.Enable()
             self.contactPanel.stopButton.Disable()
             return
 
         if contactID == '0':
             self.m_statusBar1.SetStatusText('Can\'t find ' + contactName, 1)
+            self.contactPanel.addButton.Enable()
+            self.contactPanel.stopButton.Disable()
+
         else:
 
             self.m_statusBar1.SetStatusText('Getting members list for ' + contactName, 1)
