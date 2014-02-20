@@ -21,6 +21,7 @@ import wx
 import wartarge
 import PyQt4
 from array import array
+from wx.lib.wordwrap import wordwrap
 
 #following imports needed to run Py2exe
 from PyQt4.QtCore import *
@@ -177,8 +178,8 @@ class MainFrame(wx.Frame):
     def onAbout(self, event):
         info = wx.AboutDialogInfo()
 
-        info.SetName('Wartarge')
-        info.SetDescription('A simple scritp to add contacts to you watchlist \n create by: trumpet7347\n Special Thanks: Roriii')
+        info.Name = "Wartarge"
+        info.Description = wordwrap("A simple python script used to add Contacts to your in game watchlist. \n\n Created by : trumpet7347 \n\n Special Thanks: Roriii \n\n All EVE-Online related materials are property of CCP hf.", 700, wx.ClientDC(self))
 
         wx.AboutBox(info)
 
