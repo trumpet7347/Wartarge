@@ -83,7 +83,7 @@ def getMemberList(form, ID):
   return members
 
 def loginEveGate(username, password):
-  page, resources = browser.open('http://gate.eveonline.com/')
+  page, resources = browser.open('https://gate.eveonline.com/')
   browser.click('.ccploginwidget-login a', expect_loading=True)
   browser.fill("form", {"UserName" : username, "Password" : password})
   page, resources = browser.fire_on("form", "submit", expect_loading=True)
@@ -93,7 +93,7 @@ def loginEveGate(username, password):
 
 def addContact(characterName):
   try:
-    page, resources = browser.open("http://gate.eveonline.com/Profile/%s" %(characterName))
+    page, resources = browser.open("https://gate.eveonline.com/Profile/%s" %(characterName))
     browser.evaluate("document.getElementById('addContactPopUp').setAttribute('style', '')")
     browser.click('#divStanding0 img')
     browser.click('#addToWatchlist')
